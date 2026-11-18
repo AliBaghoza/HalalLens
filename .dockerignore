@@ -1,0 +1,12 @@
+.git
+.github
+.gitignore
+.dockerignore
+config/config.php
+.env
+.env.*
+uploads/*
+!uploads/.gitkeep
+!uploads/.htaccess
+*.tmp
+*.log

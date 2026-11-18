@@ -146,3 +146,26 @@ php -S 127.0.0.1:8088
 ```
 
 Open your browser at `http://127.0.0.1:8088`. The application will open in **Arabic (RTL)** with the **Tajawal** font. Click the language switcher in the header to switch to English (LTR).
+
+---
+
+## 🌐 Cloud Deployment (Render.com)
+
+HalalLens AI includes a production `Dockerfile` and `render.yaml` configured to deploy seamlessly to **Render Web Services**:
+
+1. **Push to GitHub**:
+   ```bash
+   git add .
+   git commit -m "Prepare HalalLens AI for Render deployment"
+   git remote add origin https://github.com/<your-username>/HalalLens.git
+   git push -u origin main
+   ```
+2. **Deploy on Render**:
+   - Go to [dashboard.render.com](https://dashboard.render.com/) -> **New +** -> **Web Service**.
+   - Connect your GitHub repository.
+   - Render will detect the `Dockerfile` automatically (or choose **Runtime: Docker**).
+   - In **Environment Variables**, add:
+     - `GEMINI_API_KEY`: Your Google Gemini API key.
+     - `GEMINI_MODEL`: `gemini-3.8-flash` (or `gemini-3-flash-preview`).
+   - Click **Deploy Web Service**.
+

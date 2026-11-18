@@ -66,12 +66,12 @@ function getAppConfig(): array
     }
 
     // Ensure environment variables always take precedence if defined
-    $envApiKey = getenv('GEMINI_API_KEY') ?: ($_ENV['GEMINI_API_KEY'] ?? null);
+    $envApiKey = getenv('GEMINI_API_KEY') ?: ($_ENV['GEMINI_API_KEY'] ?? ($_SERVER['GEMINI_API_KEY'] ?? ''));
     if (!empty($envApiKey)) {
         $defaults['gemini']['api_key'] = $envApiKey;
     }
 
-    $envModel = getenv('GEMINI_MODEL') ?: ($_ENV['GEMINI_MODEL'] ?? null);
+    $envModel = getenv('GEMINI_MODEL') ?: ($_ENV['GEMINI_MODEL'] ?? ($_SERVER['GEMINI_MODEL'] ?? ''));
     if (!empty($envModel)) {
         $defaults['gemini']['model'] = $envModel;
     }
