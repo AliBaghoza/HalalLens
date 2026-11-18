@@ -1,0 +1,27 @@
+# Security & Secrets
+config/config.php
+.env
+.env.*
+*.key
+*.pem
+
+# User Uploads (keep directory structure with .gitkeep)
+uploads/*
+!uploads/.gitkeep
+!uploads/.htaccess
+
+# Temporary & Cache files
+*.tmp
+*.log
+cache/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
