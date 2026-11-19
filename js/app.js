@@ -19,7 +19,7 @@
 
     const i18n = config.i18n;
 
-    // DOM Elements
+    // DOM Elements - Form & Dropzone
     const dropZone = document.getElementById('drop-zone');
     const imageInput = document.getElementById('image-input');
     const browseBtn = document.getElementById('browse-btn');
@@ -41,7 +41,15 @@
     const stepHalal = document.getElementById('step-halal');
     const badgeHalal = document.getElementById('badge-halal');
 
-    // Results Elements
+    // Stage 1 Extracted Ingredients Card (Shown immediately upon Agent 1 completion)
+    const ingredientsStageCard = document.getElementById('ingredients-stage-card');
+    const extractedIngredientsList = document.getElementById('extracted-ingredients-list');
+    const verifyingProgressBanner = document.getElementById('verifying-progress-banner');
+    const sourceTextContainer = document.getElementById('source-text-container');
+    const sourceTextContent = document.getElementById('source-text-content');
+
+    // Results Elements (Stage 2 Verdict)
+    const resultsCard = document.getElementById('results-card');
     const resultsIdle = document.getElementById('results-idle');
     const resultsContent = document.getElementById('results-content');
     const verdictBadge = document.getElementById('verdict-badge');
@@ -52,7 +60,31 @@
     const notesContainer = document.getElementById('notes-container');
     const notesList = document.getElementById('notes-list');
 
+    // Mobile Navigation Drawer
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.getElementById('nav-menu');
+
     let currentSelectedFile = null;
+
+    /* ==========================================================================
+       0. Mobile Navigation Toggle
+       ========================================================================== */
+
+    if (mobileMenuBtn && navMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            mobileMenuBtn.setAttribute('aria-expanded', String(!isExpanded));
+            navMenu.classList.toggle('nav-open');
+        });
+
+        // Close menu on link click
+        navMenu.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('nav-open');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
 
     /* ==========================================================================
        1. File Handling & Drag-and-Drop
@@ -198,6 +230,12 @@
     }
 
     function resetResults() {
+        if (ingredientsStageCard) ingredientsStageCard.classList.add('hidden');
+        if (extractedIngredientsList) extractedIngredientsList.innerHTML = '';
+        if (verifyingProgressBanner) verifyingProgressBanner.classList.add('hidden');
+        if (sourceTextContainer) sourceTextContainer.classList.add('hidden');
+        if (sourceTextContent) sourceTextContent.textContent = '';
+
         if (resultsIdle) resultsIdle.classList.remove('hidden');
         if (resultsContent) resultsContent.classList.add('hidden');
         if (verdictBadge) {
@@ -212,88 +250,89 @@
         if (notesContainer) notesContainer.classList.add('hidden');
     }
 
-    /* ==========================================================================
-       3. Backend-Orchestrated Form Submission
-       ========================================================================== */
-
-    if (analyzeForm) {
-        analyzeForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentSelectedFile) {
-                showAlert(i18n.errorNoFile || 'Please select an image first.');
-                return;
-            }
-
-            hideAlert();
-            resetResults();
-
-            // Set UI to loading state
-            if (submitBtn) submitBtn.disabled = true;
-            if (submitBtnSpinner) submitBtnSpinner.classList.remove('hidden');
-
-            // Visual Pipeline Tracker: Stage 1 Ingestion & Vision Active
-            updateStep(stepVision, badgeVision, 'active', i18n.processing || 'Processing...');
-            updateStep(stepHalal, badgeHalal, 'idle', i18n.waiting || 'Waiting');
-
-            const formData = new FormData();
-            formData.append('image', currentSelectedFile);
-            formData.append('lang', config.currentLang || 'ar');
-
-            try {
-                // The frontend makes ONE call to the backend orchestrator
-                const response = await fetch('api/analyze.php', {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                const rawText = await response.text();
-                let data;
-                try {
-                    data = JSON.parse(rawText);
-                } catch (parseErr) {
-                    const cleanMsg = rawText.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-                    const snippet = cleanMsg ? cleanMsg.substring(0, 200) : (i18n.errorGeneric || 'Invalid server response.');
-                    showAlert(snippet);
-                    updateStep(stepVision, badgeVision, 'error', i18n.failed || 'Failed');
-                    updateStep(stepHalal, badgeHalal, 'error', i18n.failed || 'Failed');
-                    return;
-                }
-
-                if (!response.ok || !data.success) {
-                    const errorMsg = data.error || (i18n.errorGeneric || 'Analysis request failed.');
-                    showAlert(errorMsg);
-                    updateStep(stepVision, badgeVision, 'error', i18n.failed || 'Failed');
-                    updateStep(stepHalal, badgeHalal, 'error', i18n.failed || 'Failed');
-                    return;
-                }
-
-                // Stage 1 Completed
-                updateStep(stepVision, badgeVision, 'done', i18n.completed || 'Completed');
-
-                // Stage 2 Completed (both orchestrated seamlessly by backend)
-                updateStep(stepHalal, badgeHalal, 'done', i18n.completed || 'Completed');
-
-                // Render the received multi-agent synthesized data
-                const analysisData = data.product_analysis || data.data || {};
-                renderResults(analysisData);
-
-            } catch (err) {
-                showAlert((i18n.errorGeneric || 'Network error occurred.') + ' ' + err.message);
-                updateStep(stepVision, badgeVision, 'error', i18n.failed || 'Failed');
-                updateStep(stepHalal, badgeHalal, 'error', i18n.failed || 'Failed');
-            } finally {
-                if (submitBtn) submitBtn.disabled = false;
-                if (submitBtnSpinner) submitBtnSpinner.classList.add('hidden');
-            }
-        });
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 
     /* ==========================================================================
-       4. Render Real Assessment Results
+       3. Real Extracted Ingredients Rendering (Stage 1 Output)
+       ========================================================================== */
+
+    function renderExtractedIngredients(visionData) {
+        if (!ingredientsStageCard || !extractedIngredientsList) return;
+
+        extractedIngredientsList.innerHTML = '';
+        const ingredients = visionData.ingredients || [];
+
+        if (ingredients.length === 0) {
+            extractedIngredientsList.innerHTML = '<p class="empty-hint">لم يتم العثور على مكونات مقروءة بوضوح.</p>';
+        } else {
+            ingredients.forEach(item => {
+                const chip = document.createElement('div');
+                chip.className = 'extracted-chip';
+
+                const name = (typeof item === 'object' && item !== null)
+                    ? (item.normalized_name || item.original_name || '')
+                    : String(item);
+
+                const orig = (typeof item === 'object' && item !== null && item.original_name && item.normalized_name && item.original_name.toLowerCase() !== item.normalized_name.toLowerCase())
+                    ? item.original_name
+                    : null;
+
+                const conf = (typeof item === 'object' && item !== null && typeof item.confidence === 'number')
+                    ? Math.round(item.confidence * 100)
+                    : null;
+
+                let chipHtml = `
+                    <div class="chip-content">
+                        <span class="chip-leaf" aria-hidden="true">🌿</span>
+                        <span class="chip-name">${escapeHtml(name)}</span>
+                    </div>
+                `;
+
+                if (orig) {
+                    chipHtml += `<span class="chip-original" title="Original text">(${escapeHtml(orig)})</span>`;
+                }
+
+                if (conf !== null) {
+                    const confClass = conf >= 85 ? 'conf-high' : (conf >= 60 ? 'conf-med' : 'conf-low');
+                    chipHtml += `<span class="chip-confidence ${confClass}" title="Confidence">${conf}%</span>`;
+                }
+
+                chip.innerHTML = chipHtml;
+                extractedIngredientsList.appendChild(chip);
+            });
+        }
+
+        // Show raw extracted text if available
+        if (sourceTextContainer && sourceTextContent && visionData.source_text) {
+            sourceTextContent.textContent = visionData.source_text;
+            sourceTextContainer.classList.remove('hidden');
+        }
+
+        // Make Stage 1 card visible immediately
+        ingredientsStageCard.classList.remove('hidden');
+        if (verifyingProgressBanner) {
+            verifyingProgressBanner.classList.remove('hidden');
+        }
+
+        // Smooth scroll so the user immediately sees the real extracted ingredients
+        ingredientsStageCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* ==========================================================================
+       4. Real Halal Assessment Rendering (Stage 2 Output)
        ========================================================================== */
 
     function renderResults(data) {
         if (!data) return;
+
+        // Hide "Verifying in progress" banner once Agent 2 completes
+        if (verifyingProgressBanner) {
+            verifyingProgressBanner.classList.add('hidden');
+        }
 
         const vision = data.ingredients || data.vision || {};
         const verification = data.halal_verification || data.verification || {};
@@ -315,7 +354,7 @@
             confidenceVal.textContent = conf + '%';
         }
 
-        // 3. Extracted Ingredients Tags
+        // 3. Extracted Ingredients Tags in Final Report
         if (ingredientsTags) {
             ingredientsTags.innerHTML = '';
             const list = vision.ingredients || [];
@@ -410,4 +449,191 @@
         if (resultsContent) resultsContent.classList.remove('hidden');
     }
 
+    /* ==========================================================================
+       5. Progressive 2-Stage Analysis Controller (Streaming + Fallback)
+       ========================================================================== */
+
+    if (analyzeForm) {
+        analyzeForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentSelectedFile) {
+                showAlert(i18n.errorNoFile || 'Please select an image first.');
+                return;
+            }
+
+            hideAlert();
+            resetResults();
+
+            // UI Loading state
+            if (submitBtn) submitBtn.disabled = true;
+            if (submitBtnSpinner) submitBtnSpinner.classList.remove('hidden');
+
+            // Timeline: Stage 1 active, Stage 2 waiting
+            updateStep(stepVision, badgeVision, 'active', i18n.stage1_status_active || i18n.processing || 'Processing...');
+            updateStep(stepHalal, badgeHalal, 'idle', i18n.stage2_status_waiting || i18n.waiting || 'Waiting');
+
+            const formData = new FormData();
+            formData.append('image', currentSelectedFile);
+            formData.append('lang', config.currentLang || 'ar');
+            formData.append('stream', '1'); // Request real-time NDJSON stream
+
+            try {
+                const response = await fetch('api/analyze.php', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/x-ndjson, application/json'
+                    },
+                    body: formData,
+                });
+
+                const contentType = response.headers.get('content-type') || '';
+
+                // Case A: Real progressive NDJSON stream supported and returned
+                if (response.body && (contentType.includes('application/x-ndjson') || contentType.includes('text/event-stream'))) {
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder('utf-8');
+                    let streamBuffer = '';
+                    let stage1Rendered = false;
+                    let stage2Rendered = false;
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+
+                        streamBuffer += decoder.decode(value, { stream: true });
+                        const lines = streamBuffer.split('\n');
+                        streamBuffer = lines.pop(); // Retain remainder for next chunk
+
+                        for (const line of lines) {
+                            const trimmed = line.trim();
+                            if (!trimmed) continue;
+
+                            let event;
+                            try {
+                                event = JSON.parse(trimmed);
+                            } catch (parseErr) {
+                                console.warn('Stream chunk parse error:', trimmed);
+                                continue;
+                            }
+
+                            // Handle Event 1: Real Ingredients Extracted from Agent 1
+                            if (event.type === 'ingredients_extracted') {
+                                stage1Rendered = true;
+                                updateStep(stepVision, badgeVision, 'done', i18n.stage1_status_done || 'Ingredients Extracted');
+                                updateStep(stepHalal, badgeHalal, 'active', i18n.stage2_status_active || 'Verifying...');
+
+                                const extractedData = event.data?.ingredients || event.data || {};
+                                renderExtractedIngredients(extractedData);
+                            }
+
+                            // Handle Event 2: Verification Started
+                            else if (event.type === 'verification_started') {
+                                updateStep(stepHalal, badgeHalal, 'active', i18n.stage2_status_active || 'Verifying...');
+                            }
+
+                            // Handle Event 3: Verification Completed from Agent 2
+                            else if (event.type === 'verification_completed') {
+                                stage2Rendered = true;
+                                updateStep(stepHalal, badgeHalal, 'done', i18n.stage2_status_done || 'Verification Completed');
+                                
+                                const analysisData = event.data?.product_analysis || event.data || {};
+                                renderResults(analysisData);
+                            }
+
+                            // Handle Event Error
+                            else if (event.type === 'error' || event.success === false) {
+                                throw new Error(event.error || (i18n.errorGeneric || 'Analysis error.'));
+                            }
+                        }
+                    }
+
+                    // Process any final buffered line
+                    if (streamBuffer.trim()) {
+                        try {
+                            const finalEvent = JSON.parse(streamBuffer.trim());
+                            if (finalEvent.type === 'verification_completed') {
+                                stage2Rendered = true;
+                                updateStep(stepHalal, badgeHalal, 'done', i18n.stage2_status_done || 'Completed');
+                                renderResults(finalEvent.data?.product_analysis || finalEvent.data || {});
+                            }
+                        } catch (e) {
+                            // Non-critical trailing buffer
+                        }
+                    }
+
+                    // If stream completed successfully, we are done!
+                    if (stage1Rendered && stage2Rendered) {
+                        return;
+                    }
+                }
+
+                // Case B: Fallback / standard response (if proxy buffered or non-stream JSON was returned)
+                const rawText = await response.text();
+                let data;
+
+                // Handle possible multi-line NDJSON delivered all at once
+                const lines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
+                let lastValid = null;
+                for (const line of lines) {
+                    try {
+                        const parsed = JSON.parse(line);
+                        if (parsed.type === 'ingredients_extracted') {
+                            updateStep(stepVision, badgeVision, 'done', i18n.stage1_status_done || 'Ingredients Extracted');
+                            renderExtractedIngredients(parsed.data?.ingredients || parsed.data || {});
+                        }
+                        if (parsed.type === 'verification_completed') {
+                            lastValid = parsed.data?.product_analysis || parsed.data;
+                        }
+                    } catch (_) {}
+                }
+
+                if (lastValid) {
+                    updateStep(stepHalal, badgeHalal, 'done', i18n.stage2_status_done || 'Completed');
+                    renderResults(lastValid);
+                    return;
+                }
+
+                // Standard JSON single response
+                try {
+                    data = JSON.parse(rawText);
+                } catch (parseErr) {
+                    const cleanMsg = rawText.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+                    const snippet = cleanMsg ? cleanMsg.substring(0, 200) : (i18n.errorGeneric || 'Invalid server response.');
+                    showAlert(snippet);
+                    updateStep(stepVision, badgeVision, 'error', i18n.failed || 'Failed');
+                    updateStep(stepHalal, badgeHalal, 'error', i18n.failed || 'Failed');
+                    return;
+                }
+
+                if (!response.ok || !data.success) {
+                    const errorMsg = data.error || (i18n.errorGeneric || 'Analysis request failed.');
+                    showAlert(errorMsg);
+                    updateStep(stepVision, badgeVision, 'error', i18n.failed || 'Failed');
+                    updateStep(stepHalal, badgeHalal, 'error', i18n.failed || 'Failed');
+                    return;
+                }
+
+                // Progressive reveal: First render extracted ingredients
+                const analysisData = data.product_analysis || data.data || {};
+                if (analysisData.ingredients) {
+                    updateStep(stepVision, badgeVision, 'done', i18n.stage1_status_done || 'Ingredients Extracted');
+                    renderExtractedIngredients(analysisData.ingredients);
+                }
+
+                // Then complete Stage 2
+                updateStep(stepHalal, badgeHalal, 'done', i18n.stage2_status_done || 'Verification Completed');
+                renderResults(analysisData);
+
+            } catch (err) {
+                showAlert((i18n.errorGeneric || 'Network error occurred.') + ' ' + err.message);
+                updateStep(stepVision, badgeVision, 'error', i18n.failed || 'Failed');
+                updateStep(stepHalal, badgeHalal, 'error', i18n.failed || 'Failed');
+            } finally {
+                if (submitBtn) submitBtn.disabled = false;
+                if (submitBtnSpinner) submitBtnSpinner.classList.add('hidden');
+            }
+        });
+    }
+
 })();
+

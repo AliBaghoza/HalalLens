@@ -8,14 +8,29 @@
 
 ## 📌 Project Overview
 
-HalalLens AI focuses on solving the challenge of food ingredient verification using a collaborative Multi-Agent AI system where specialized agents cooperate through a real server-side data pipeline:
+HalalLens AI solves the challenge of food ingredient verification using an official brand identity and a collaborative Multi-Agent AI system where specialized agents cooperate through a real server-side data pipeline:
 
-1. **Official Brand Identity & Responsive UI**: Featuring the official HalalLens AI logo (`assets/halallens-logo.png`), universal **Tajawal** typography, and a fully responsive layout across mobile, tablet, and desktop devices.
-2. **Ingredient Vision Agent (Agent 1)**: Ingests the raw product image via Gemini Vision API (`gemini-3.8-flash` with resilient fallback), assesses source quality (`good`, `fair`, `poor`, `unreadable`), and extracts individual ingredients into a structured JSON contract (`original_name`, `normalized_name`, `confidence`) preserving packaging wording and uncertainty without making dietary rulings.
-3. **Halal Verification Agent (Agent 2)**: Ingests the structured ingredient JSON directly from Agent 1, applies Islamic dietary jurisprudence (Fiqh al-At'imah) and food additive science, and generates a canonical assessment report with overall and per-ingredient rulings.
-4. **Real Agent 1 → Agent 2 Backend Handoff**: Fully orchestrated server-side in PHP memory without client browser intermediary steps.
-5. **Bilingual Arabic-First Interface**: Full RTL-first layout with English LTR secondary switching.
-6. **Nearby Halal Restaurant Finder (Future Feature / Coming Soon)**: A planned extension designed for a future release to assist consumers in finding verified Halal dining options nearby.
+1. **Official Brand Identity & Visual System**: Inspired by the official brand reference board, featuring the HalalLens AI logo (`assets/halallens-logo.png`), warm Islamic geometric accents, an official color palette (Deep Forest Green `#0d3b24`, Lush Green `#1b7a43`, Mint `#e8f7ee`, Leaf Green `#68b63e`, Warm Gold `#c79d39`, Off-White `#f8faf7`), and universal **Tajawal** typography.
+2. **Progressive 2-Stage Analysis (Enhanced User Experience)**:
+   - **Stage 1 (Immediate Extraction Display)**: As soon as Agent 1 completes optical character recognition and lexical ingredient parsing, the real extracted ingredient chips (with leaf icons, normalized names, original text, and confidence badges) are rendered on the screen *immediately*. A live pulsing progress banner notifies the user: *"جارٍ التحقق من المكونات شرعياً..."*
+   - **Stage 2 (Final Fiqh Assessment)**: Agent 2 ingests the extracted ingredients in server memory, evaluates Islamic dietary jurisprudence and additive databases, and completes the final assessment report with canonical verdicts, fiqh reasoning, and ingredient assessments.
+3. **Ingredient Vision Agent (Agent 1)**: Ingests the raw product image via Gemini Vision API (`gemini-3.8-flash` with resilient fallback), assesses source quality (`good`, `fair`, `poor`, `unreadable`), and extracts individual ingredients into a structured JSON contract (`original_name`, `normalized_name`, `confidence`) preserving packaging wording and uncertainty without making dietary rulings.
+4. **Halal Verification Agent (Agent 2)**: Ingests the structured ingredient JSON directly from Agent 1, applies Islamic dietary jurisprudence (Fiqh al-At'imah) and food additive science, and generates a canonical assessment report with overall and per-ingredient rulings.
+5. **Real Agent 1 → Agent 2 Backend Handoff**: Fully orchestrated server-side in PHP memory without client browser intermediary steps or exposed API keys. Supported via unbuffered streaming (`application/x-ndjson`).
+6. **Bilingual Arabic-First Interface**: Full RTL-first layout with English LTR secondary switching. Fully responsive across mobile (320px–414px), tablet (600px–1024px), and desktop (1280px–1920px) screens.
+7. **Comprehensive Website Sections**:
+   - Responsive Navigation Header with mobile hamburger drawer.
+   - 2-Column Hero Section with dual call-to-actions and emblem card.
+   - 4 Quick Feature Cards under the hero.
+   - "How It Works" 4-step user journey.
+   - "Multi-Agent Architecture" interactive flow diagram and decoupled agent cards.
+   - Product Image Analysis Workspace (Upload Dropzone, Live Pipeline Tracker, Stage 1 Extracted Ingredients Card, Stage 2 Results Report).
+   - Platform Core Features (6 cards).
+   - Canonical Status Guide (`HALAL`, `HARAM`, `DOUBTFUL`, `UNKNOWN`).
+   - Nearby Halal Restaurant Finder (**Strictly "Coming Soon" / "قريبًا"**).
+   - Trust & Advisory Disclaimer.
+   - Responsive Footer with navigation links and credits.
+8. **Nearby Halal Restaurant Finder (Future Feature / Coming Soon)**: A planned extension designed for a future release to assist consumers in finding verified Halal dining options nearby.
 
 ---
 
@@ -25,7 +40,7 @@ HalalLens AI focuses on solving the challenge of food ingredient verification us
 - **Backend**: PHP 8.2+ (Shared hosting, cPanel, and Docker compatible)
 - **Frontend**: HTML5, CSS3, Vanilla JavaScript (Zero build tools, no Node.js, React, npm, or Vite)
 - **Typography**: `Tajawal, Arial, sans-serif` universally applied as the visual brand identity
-- **Networking**: PHP cURL with SSL verification, output buffering, and execution timeouts
+- **Networking**: PHP cURL with SSL verification, execution timeouts, and unbuffered NDJSON streaming
 - **AI Processing**: Google Gemini API via server-side REST integration (Multimodal Vision & Dietary Reasoning)
 - **Orchestration**: Server-side Multi-Agent pipeline orchestration in `api/analyze.php`
 - **Cloud Deployment**: Production `Dockerfile` and `render.yaml` for Render Web Services
@@ -44,14 +59,14 @@ HalalLens AI focuses on solving the challenge of food ingredient verification us
 HalalLens/
 ├── index.php                 # Main entry point (Arabic default, dir="rtl", Tajawal typography)
 ├── css/
-│   └── style.css             # Universal Tajawal styling, RTL-first layout, Halal theme
+│   └── style.css             # Universal Tajawal styling, brand color palette, responsive design
 ├── js/
-│   └── app.js                # Vanilla JS file handling, pipeline tracker & API interaction
+│   └── app.js                # Vanilla JS progressive stream reader, Stage 1 & Stage 2 renderer
 ├── lang/
 │   ├── ar.php                # Default primary language dictionary (Arabic, RTL)
 │   └── en.php                # Secondary language dictionary (English, LTR)
 ├── api/
-│   ├── analyze.php           # Backend Multi-Agent Orchestrator (Agent 1 -> Agent 2 pipeline)
+│   ├── analyze.php           # Backend Multi-Agent Orchestrator (Streaming & standard JSON)
 │   └── verify.php            # Modular test endpoint for direct ingredient verification
 ├── agents/
 │   ├── IngredientAgent.php   # Agent 1: Vision OCR & ingredient extraction to structured JSON
@@ -74,9 +89,9 @@ HalalLens/
 
 ---
 
-## 🔄 Current Active Architecture
+## 🔄 Current Active Architecture: Progressive 2-Stage Pipeline
 
-The active Multi-Agent pipeline executes entirely within the server backend:
+The active Multi-Agent pipeline executes entirely within the server backend with progressive client delivery:
 
 ```
 [User Uploads Label Image]
@@ -92,22 +107,23 @@ The active Multi-Agent pipeline executes entirely within the server backend:
 │           Agent 1: Ingredient Vision Agent             │
 │              (agents/IngredientAgent.php)              │
 │       • Multimodal Vision processing via Gemini        │
-│       • Extracts raw text & E-numbers                  │
+│       • Extracts raw text, ingredients & E-numbers     │
 └────────────────────────┬───────────────────────────────┘
                          │
-                         ▼ (Structured JSON: {"ingredients": [...]})
-┌────────────────────────────────────────────────────────┐
-│           Agent 2: Halal Verification Agent            │
-│                 (agents/HalalAgent.php)                │
-│       • Cross-checks additives & animal sources        │
-│       • Classifies into Canonical Statuses             │
-└────────────────────────┬───────────────────────────────┘
-                         │
-                         ▼ (Combined Synthesized Payload)
-┌────────────────────────────────────────────────────────┐
-│                   Frontend (js/app.js)                 │
-│         Renders pipeline tracker & final verdict       │
-└────────────────────────────────────────────────────────┘
+                         ├─────────────────────────────────────────┐
+                         ▼ (Immediate Stream Chunk)                ▼ (In-Memory Internal Handoff)
+┌────────────────────────────────────────────────────────┐ ┌───────────────────────────────────────┐
+│               Frontend: Stage 1 UI Card                │ │   Agent 2: Halal Verification Agent   │
+│         • Displays real ingredient chips immediately   │ │        (agents/HalalAgent.php)        │
+│         • Shows "جارٍ التحقق من المكونات شرعياً..."    │ │  • Cross-checks additives & fiqh    │
+└────────────────────────────────────────────────────────┘ └───────────────────┬───────────────────┘
+                                                                               │
+                                                                               ▼ (Final Stream Chunk)
+                                                           ┌───────────────────────────────────────┐
+                                                           │       Frontend: Stage 2 UI Card       │
+                                                           │  • Renders final canonical verdict    │
+                                                           │  • Detailed rulings & recommendations │
+                                                           └───────────────────────────────────────┘
 ```
 
 ---

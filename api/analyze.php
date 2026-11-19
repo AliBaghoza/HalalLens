@@ -154,9 +154,26 @@ try {
         exit;
     }
 
+    // Determine streaming or extraction mode
+    $isStreaming = (isset($_POST['stream']) && $_POST['stream'] === '1') 
+                || (isset($_GET['stream']) && $_GET['stream'] === '1')
+                || (strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/x-ndjson') !== false);
+    $action = (string) ($_POST['action'] ?? ($_GET['action'] ?? 'full'));
+
     // Determine target language for reasoning
     $lang = (string) ($_POST['lang'] ?? ($_COOKIE['halallens_lang'] ?? 'ar'));
     $lang = in_array(strtolower($lang), ['ar', 'en'], true) ? strtolower($lang) : 'ar';
+
+    // If streaming, prepare chunked unbuffered output headers
+    if ($isStreaming) {
+        while (ob_get_level()) {
+            @ob_end_flush();
+        }
+        header('Content-Type: application/x-ndjson; charset=UTF-8');
+        header('Cache-Control: no-cache, no-transform');
+        header('Connection: keep-alive');
+        header('X-Accel-Buffering: no');
+    }
 
     // =========================================================================
     // Backend Multi-Agent Orchestration Flow
@@ -172,11 +189,46 @@ try {
     // Validate Agent 1 output
     if (!is_array($visionResult) || !isset($visionResult['ingredients']) || !isset($visionResult['success'])) {
         http_response_code(500);
-        echo json_encode([
+        $errPayload = [
             'success' => false,
+            'type' => 'error',
             'error' => 'Ingredient Vision Agent returned an invalid response structure.',
-        ], JSON_UNESCAPED_UNICODE);
+        ];
+        echo json_encode($errPayload, JSON_UNESCAPED_UNICODE) . ($isStreaming ? "\n" : '');
         exit;
+    }
+
+    // If client requested Step 1 fallback only (extract action)
+    if ($action === 'extract') {
+        echo json_encode([
+            'success' => true,
+            'action' => 'extract',
+            'file_id' => $safeFilename,
+            'ingredients' => $visionResult,
+        ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        exit;
+    }
+
+    // In streaming mode: Flush Event 1 (Real ingredients extracted from Agent 1)
+    if ($isStreaming) {
+        echo json_encode([
+            'type' => 'ingredients_extracted',
+            'success' => true,
+            'file_id' => $safeFilename,
+            'data' => [
+                'ingredients' => $visionResult,
+            ],
+        ], JSON_UNESCAPED_UNICODE) . "\n";
+        @ob_flush();
+        @flush();
+
+        // Flush Event 2 (Verification starting)
+        echo json_encode([
+            'type' => 'verification_started',
+            'success' => true,
+        ], JSON_UNESCAPED_UNICODE) . "\n";
+        @ob_flush();
+        @flush();
     }
 
     // Stage 2: Direct backend handoff to Agent 2 (Halal Verification Agent)
@@ -186,14 +238,36 @@ try {
     // Validate Agent 2 output
     if (!is_array($verificationResult) || !isset($verificationResult['status']) || !isset($verificationResult['success'])) {
         http_response_code(500);
-        echo json_encode([
+        $errPayload = [
             'success' => false,
+            'type' => 'error',
             'error' => 'Halal Verification Agent returned an invalid response structure.',
-        ], JSON_UNESCAPED_UNICODE);
+        ];
+        echo json_encode($errPayload, JSON_UNESCAPED_UNICODE) . ($isStreaming ? "\n" : '');
         exit;
     }
 
-    // Return the combined multi-agent result with expected structure
+    // If streaming: Flush Event 3 (Final Halal Verification Completed)
+    if ($isStreaming) {
+        echo json_encode([
+            'type' => 'verification_completed',
+            'success' => true,
+            'file_id' => $safeFilename,
+            'data' => [
+                'halal_verification' => $verificationResult,
+                'product_analysis' => [
+                    'file_id' => $safeFilename,
+                    'ingredients' => $visionResult,
+                    'halal_verification' => $verificationResult,
+                ],
+            ],
+        ], JSON_UNESCAPED_UNICODE) . "\n";
+        @ob_flush();
+        @flush();
+        exit;
+    }
+
+    // Standard Non-Streaming Output (100% backward compatible for tests and traditional clients)
     echo json_encode([
         'success' => true,
         'product_analysis' => [
@@ -207,8 +281,11 @@ try {
     http_response_code(500);
     // Sanitize any accidental API key leakage from error message
     $sanitizedMsg = preg_replace('/key=[a-zA-Z0-9_\-]+/', 'key=[REDACTED]', $e->getMessage());
-    echo json_encode([
+    $errPayload = [
         'success' => false,
+        'type' => 'error',
         'error' => $sanitizedMsg,
-    ], JSON_UNESCAPED_UNICODE);
+    ];
+    $isStreaming = (isset($_POST['stream']) && $_POST['stream'] === '1') || (isset($_GET['stream']) && $_GET['stream'] === '1');
+    echo json_encode($errPayload, JSON_UNESCAPED_UNICODE) . ($isStreaming ? "\n" : '');
 }
