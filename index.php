@@ -43,6 +43,18 @@ $direction = $t['direction'] ?? 'rtl';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/png" href="assets/halallens-logo.png">
+    <link rel="apple-touch-icon" href="assets/halallens-logo.png">
+    
+    <!-- Open Graph & Meta Tags -->
+    <meta name="description" content="<?= htmlspecialchars($t['hero_desc'], ENT_QUOTES, 'UTF-8') ?>">
+    <meta property="og:title" content="<?= htmlspecialchars($t['site_title'], ENT_QUOTES, 'UTF-8') ?>">
+    <meta property="og:description" content="<?= htmlspecialchars($t['hero_desc'], ENT_QUOTES, 'UTF-8') ?>">
+    <meta property="og:image" content="assets/halallens-logo.png">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#13794f">
+
     <!-- Application Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -52,14 +64,9 @@ $direction = $t['direction'] ?? 'rtl';
     <header class="app-header">
         <div class="container header-inner">
             <div class="brand">
-                <div class="brand-logo" aria-hidden="true">
-                    <svg viewBox="0 0 40 40" width="36" height="36" fill="none">
-                        <circle cx="20" cy="20" r="18" stroke="#13794f" stroke-width="2.5" fill="#f0fdf4"/>
-                        <circle cx="20" cy="20" r="9" stroke="#c59b27" stroke-width="2"/>
-                        <path d="M20 14v12M14 20h12" stroke="#13794f" stroke-width="2.5" stroke-linecap="round"/>
-                        <path d="M26 26l7 7" stroke="#13794f" stroke-width="3" stroke-linecap="round"/>
-                    </svg>
-                </div>
+                <a href="index.php?lang=<?= urlencode($lang) ?>" class="brand-link" aria-label="<?= htmlspecialchars($t['app_name'], ENT_QUOTES, 'UTF-8') ?>">
+                    <img src="assets/halallens-logo.png" alt="<?= htmlspecialchars($t['logo_alt'], ENT_QUOTES, 'UTF-8') ?>" class="app-logo" width="48" height="48">
+                </a>
                 <div class="brand-info">
                     <h1 class="brand-title"><?= htmlspecialchars($t['app_name'], ENT_QUOTES, 'UTF-8') ?></h1>
                     <span class="university-tag"><?= htmlspecialchars($t['university_badge'], ENT_QUOTES, 'UTF-8') ?></span>
@@ -81,6 +88,10 @@ $direction = $t['direction'] ?? 'rtl';
 
         <!-- Hero Section -->
         <section class="hero-section">
+            <div class="hero-brand-badge">
+                <img src="assets/halallens-logo.png" alt="<?= htmlspecialchars($t['logo_alt'], ENT_QUOTES, 'UTF-8') ?>" class="hero-logo" width="110" height="110">
+                <span class="hero-tagline"><?= htmlspecialchars($t['hero_tagline'], ENT_QUOTES, 'UTF-8') ?></span>
+            </div>
             <h2 class="hero-title"><?= htmlspecialchars($t['hero_title'], ENT_QUOTES, 'UTF-8') ?></h2>
             <p class="hero-subtitle"><?= htmlspecialchars($t['hero_desc'], ENT_QUOTES, 'UTF-8') ?></p>
         </section>
@@ -243,7 +254,10 @@ $direction = $t['direction'] ?? 'rtl';
     <!-- Footer -->
     <footer class="app-footer">
         <div class="container footer-inner">
-            <p class="footer-title"><?= htmlspecialchars($t['footer_text'], ENT_QUOTES, 'UTF-8') ?></p>
+            <div class="footer-brand">
+                <img src="assets/halallens-logo.png" alt="<?= htmlspecialchars($t['logo_alt'], ENT_QUOTES, 'UTF-8') ?>" class="footer-logo" width="36" height="36">
+                <p class="footer-title"><?= htmlspecialchars($t['footer_text'], ENT_QUOTES, 'UTF-8') ?></p>
+            </div>
             <p class="footer-disclaimer"><?= htmlspecialchars($t['footer_disclaimer'], ENT_QUOTES, 'UTF-8') ?></p>
         </div>
     </footer>

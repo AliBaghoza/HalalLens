@@ -9,9 +9,11 @@ declare(strict_types=1);
 return [
     'lang_code' => 'en',
     'direction' => 'ltr',
-    'site_title' => 'HalalLens AI | Intelligent Food Ingredient Verification',
+    'site_title' => 'HalalLens AI | Smart Halal Food Verification',
     'app_name' => 'HalalLens AI',
-    'app_tagline' => 'Collaborative Multi-Agent AI Platform for Food Ingredient Verification',
+    'app_tagline' => 'Know your food ingredients with confidence',
+    'hero_tagline' => 'Know your food ingredients with confidence',
+    'logo_alt' => 'HalalLens AI Logo - Know your food ingredients with confidence',
     'university_badge' => 'AI Engineering Project - Multi-Agent Architecture',
 
     // Navigation & Actions

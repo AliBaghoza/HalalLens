@@ -1,4 +1,6 @@
-# HalalLens AI (عدسة الحلال الذكية)
+# HalalLens AI (هلالنس الذكي لفحص الحلال)
+
+> **اعرف مكونات طعامك بثقة** | **Know your food ingredients with confidence**
 
 **HalalLens AI** is an AI Engineering platform designed to verify the Halal compliance of food products by analyzing ingredient label images through a backend-orchestrated Multi-Agent AI architecture.
 
@@ -8,11 +10,12 @@
 
 HalalLens AI focuses on solving the challenge of food ingredient verification using a collaborative Multi-Agent AI system where specialized agents cooperate through a real server-side data pipeline:
 
-1. **Ingredient Vision Agent (Agent 1)**: Ingests the raw product image via Gemini Vision API (`gemini-3.8-flash` with resilient fallback), assesses source quality (`good`, `fair`, `poor`, `unreadable`), and extracts individual ingredients into a structured JSON contract (`original_name`, `normalized_name`, `confidence`) preserving packaging wording and uncertainty without making dietary rulings.
-2. **Halal Verification Agent (Agent 2)**: Ingests the structured ingredient JSON directly from Agent 1, applies Islamic dietary jurisprudence (Fiqh al-At'imah) and food additive science, and generates a canonical assessment report with overall and per-ingredient rulings.
-3. **Real Agent 1 → Agent 2 Backend Handoff**: Fully orchestrated server-side in PHP memory without client browser intermediary steps.
-4. **Bilingual Arabic-First Interface**: Full RTL-first layout with English LTR secondary switching, using the universal **Tajawal** typography.
-5. **Nearby Halal Restaurant Finder (Future Feature / Coming Soon)**: A planned extension designed for a future release to assist consumers in finding verified Halal dining options nearby.
+1. **Official Brand Identity & Responsive UI**: Featuring the official HalalLens AI logo (`assets/halallens-logo.png`), universal **Tajawal** typography, and a fully responsive layout across mobile, tablet, and desktop devices.
+2. **Ingredient Vision Agent (Agent 1)**: Ingests the raw product image via Gemini Vision API (`gemini-3.8-flash` with resilient fallback), assesses source quality (`good`, `fair`, `poor`, `unreadable`), and extracts individual ingredients into a structured JSON contract (`original_name`, `normalized_name`, `confidence`) preserving packaging wording and uncertainty without making dietary rulings.
+3. **Halal Verification Agent (Agent 2)**: Ingests the structured ingredient JSON directly from Agent 1, applies Islamic dietary jurisprudence (Fiqh al-At'imah) and food additive science, and generates a canonical assessment report with overall and per-ingredient rulings.
+4. **Real Agent 1 → Agent 2 Backend Handoff**: Fully orchestrated server-side in PHP memory without client browser intermediary steps.
+5. **Bilingual Arabic-First Interface**: Full RTL-first layout with English LTR secondary switching.
+6. **Nearby Halal Restaurant Finder (Future Feature / Coming Soon)**: A planned extension designed for a future release to assist consumers in finding verified Halal dining options nearby.
 
 ---
 
@@ -59,6 +62,7 @@ HalalLens/
 │   ├── .gitkeep              # Directory tracker
 │   └── .htaccess             # Apache rule denying direct script execution
 ├── assets/
+│   ├── halallens-logo.png    # Official HalalLens AI logo & brand identity (1:1 ratio)
 │   └── .gitkeep              # Asset repository tracker
 ├── Dockerfile                # Production container specification for Render deployment
 ├── .dockerignore             # Excludes local secrets and temporary files
