@@ -44,14 +44,14 @@ $direction = $t['direction'] ?? 'rtl';
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <!-- Favicon & Brand Icons -->
-    <link rel="icon" type="image/png" href="assets/halallens-logo.png">
-    <link rel="apple-touch-icon" href="assets/halallens-logo.png">
+    <link rel="icon" type="image/png" href="assets/halallens-logo-header.png">
+    <link rel="apple-touch-icon" href="assets/halallens-logo-header.png">
     
     <!-- Open Graph & Meta Tags -->
     <meta name="description" content="<?= htmlspecialchars($t['hero_desc'], ENT_QUOTES, 'UTF-8') ?>">
     <meta property="og:title" content="<?= htmlspecialchars($t['site_title'], ENT_QUOTES, 'UTF-8') ?>">
     <meta property="og:description" content="<?= htmlspecialchars($t['hero_desc'], ENT_QUOTES, 'UTF-8') ?>">
-    <meta property="og:image" content="assets/halallens-logo.png">
+    <meta property="og:image" content="assets/halallens-logo-header.png">
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#13794f">
 
@@ -65,11 +65,10 @@ $direction = $t['direction'] ?? 'rtl';
         <div class="container header-inner">
             <div class="brand">
                 <a href="#hero" class="brand-link" aria-label="<?= htmlspecialchars($t['app_name'], ENT_QUOTES, 'UTF-8') ?>">
-                    <img src="assets/halallens-logo.png" alt="<?= htmlspecialchars($t['logo_alt'], ENT_QUOTES, 'UTF-8') ?>" class="app-logo" width="46" height="46">
+                    <img src="assets/halallens-logo-header.png" alt="<?= htmlspecialchars($t['logo_alt'], ENT_QUOTES, 'UTF-8') ?>" class="app-logo" width="46" height="46">
                 </a>
                 <div class="brand-info">
                     <span class="brand-title"><?= htmlspecialchars($t['app_brand'], ENT_QUOTES, 'UTF-8') ?></span>
-                    <span class="university-tag"><?= htmlspecialchars($t['university_badge'], ENT_QUOTES, 'UTF-8') ?></span>
                 </div>
             </div>
 

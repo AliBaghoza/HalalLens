@@ -15,7 +15,6 @@ return [
     'app_tagline' => 'اعرف مكونات طعامك بثقة',
     'hero_tagline' => 'اعرف مكونات طعامك بثقة',
     'logo_alt' => 'شعار عدسة حلال - HalalLens AI',
-    'university_badge' => 'مشروع هندسة الذكاء الاصطناعي - بنية متعددة الوكلاء',
 
     // Navigation
     'nav_home' => 'الرئيسية',

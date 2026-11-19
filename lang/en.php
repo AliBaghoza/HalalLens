@@ -15,7 +15,6 @@ return [
     'app_tagline' => 'Know your food ingredients with confidence',
     'hero_tagline' => 'Know your food ingredients with confidence',
     'logo_alt' => 'HalalLens AI logo',
-    'university_badge' => 'AI Engineering Project - Multi-Agent Architecture',
 
     // Navigation
     'nav_home' => 'Home',
