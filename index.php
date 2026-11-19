@@ -217,30 +217,25 @@ $direction = $t['direction'] ?? 'rtl';
             </div>
         </section>
 
-        <!-- Decoupled Halal Restaurant Finder Section -->
-        <section class="card restaurant-card" aria-labelledby="restaurant-heading">
-            <div class="card-header">
-                <h3 id="restaurant-heading" class="card-title"><?= htmlspecialchars($t['restaurant_title'], ENT_QUOTES, 'UTF-8') ?></h3>
-                <p class="card-subtitle"><?= htmlspecialchars($t['restaurant_subtitle'], ENT_QUOTES, 'UTF-8') ?></p>
+        <!-- Future Planned Feature: Nearby Halal Restaurants (Coming Soon) -->
+        <section class="card restaurant-coming-soon-card" aria-labelledby="restaurant-heading">
+            <div class="coming-soon-badge-wrapper">
+                <span class="coming-soon-badge">
+                    <span class="coming-soon-dot" aria-hidden="true"></span>
+                    <?= htmlspecialchars($t['restaurant_badge_coming_soon'], ENT_QUOTES, 'UTF-8') ?>
+                </span>
             </div>
-
-            <!-- Search Controls -->
-            <div class="restaurant-controls">
-                <div class="search-input-group">
-                    <input type="text" id="restaurant-search-input" placeholder="<?= htmlspecialchars($t['restaurant_search_placeholder'], ENT_QUOTES, 'UTF-8') ?>" class="input-text">
-                    <button type="button" id="btn-search-city" class="btn btn-secondary">
-                        <?= htmlspecialchars($t['btn_search_location'], ENT_QUOTES, 'UTF-8') ?>
-                    </button>
+            <div class="coming-soon-icon" aria-hidden="true">
+                <div class="icon-circle">
+                    <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
                 </div>
-                <button type="button" id="btn-gps-location" class="btn btn-outline">
-                    <span aria-hidden="true">📍</span> <?= htmlspecialchars($t['btn_current_location'], ENT_QUOTES, 'UTF-8') ?>
-                </button>
             </div>
-
-            <div id="restaurant-status" class="restaurant-status hidden"></div>
-
-            <!-- Restaurant Results Listing -->
-            <div id="restaurant-results" class="restaurant-results-grid"></div>
+            <h3 id="restaurant-heading" class="coming-soon-title"><?= htmlspecialchars($t['restaurant_title'], ENT_QUOTES, 'UTF-8') ?></h3>
+            <p class="coming-soon-desc"><?= htmlspecialchars($t['restaurant_coming_soon_desc'], ENT_QUOTES, 'UTF-8') ?></p>
+            <p class="coming-soon-subdesc"><?= htmlspecialchars($t['restaurant_coming_soon_subdesc'], ENT_QUOTES, 'UTF-8') ?></p>
         </section>
 
     </main>
@@ -267,11 +262,6 @@ $direction = $t['direction'] ?? 'rtl';
                 errorFileSize: "<?= htmlspecialchars($t['error_file_size'], ENT_QUOTES, 'UTF-8') ?>",
                 errorFileType: "<?= htmlspecialchars($t['error_file_type'], ENT_QUOTES, 'UTF-8') ?>",
                 errorGeneric: "<?= htmlspecialchars($t['error_generic'], ENT_QUOTES, 'UTF-8') ?>",
-                noRestaurants: "<?= htmlspecialchars($t['restaurant_no_results'], ENT_QUOTES, 'UTF-8') ?>",
-                cuisine: "<?= htmlspecialchars($t['restaurant_cuisine'], ENT_QUOTES, 'UTF-8') ?>",
-                distance: "<?= htmlspecialchars($t['restaurant_distance'], ENT_QUOTES, 'UTF-8') ?>",
-                address: "<?= htmlspecialchars($t['restaurant_address'], ENT_QUOTES, 'UTF-8') ?>",
-                locationDenied: "<?= htmlspecialchars($t['location_permission_denied'], ENT_QUOTES, 'UTF-8') ?>",
                 statuses: {
                     HALAL: "<?= htmlspecialchars($t['status_halal'], ENT_QUOTES, 'UTF-8') ?>",
                     HARAM: "<?= htmlspecialchars($t['status_haram'], ENT_QUOTES, 'UTF-8') ?>",

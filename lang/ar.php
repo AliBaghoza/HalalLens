@@ -62,16 +62,11 @@ return [
     'results_notes_title' => 'تنبيهات وتوصيات للمستهلك',
     'no_analysis_yet' => 'لم يتم إجراء فحص حتى الآن. يرجى اختيار صورة والضغط على "بدء التحليل الذكي".',
 
-    // Restaurant Finder Section (Decoupled Service)
-    'restaurant_title' => 'البحث عن مطاعم حلال قريبة',
-    'restaurant_subtitle' => 'استكشف المطاعم المعتمدة القريبة عبر بيانات OpenStreetMap',
-    'restaurant_search_placeholder' => 'أدخل اسم المدينة أو المنطقة...',
-    'btn_search_location' => 'بحث',
-    'btn_current_location' => 'استخدام موقعي الحالي',
-    'restaurant_no_results' => 'لم يتم العثور على مطاعم حلال في هذا النطاق.',
-    'restaurant_cuisine' => 'نوع المطبخ:',
-    'restaurant_distance' => 'المسافة التقريبية:',
-    'restaurant_address' => 'العنوان:',
+    // Restaurant Finder Section (Future Planned Feature - Coming Soon)
+    'restaurant_title' => 'المطاعم الحلال القريبة',
+    'restaurant_badge_coming_soon' => 'قريبًا',
+    'restaurant_coming_soon_desc' => 'نعمل حاليًا على تطوير هذه الميزة.',
+    'restaurant_coming_soon_subdesc' => 'سيتم إصدارها في تحديث مستقبلي لمساعدتك في اكتشاف المطاعم الحلال القريبة منك.',
 
     // Alerts & Errors
     'error_no_file' => 'يرجى اختيار صورة ملصق المنتج أولاً.',

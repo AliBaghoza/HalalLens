@@ -62,16 +62,11 @@ return [
     'results_notes_title' => 'Consumer Notes & Recommendations',
     'no_analysis_yet' => 'No analysis performed yet. Select an image and click "Start Intelligent Analysis".',
 
-    // Restaurant Finder Section (Decoupled Service)
-    'restaurant_title' => 'Nearby Halal Restaurant Finder',
-    'restaurant_subtitle' => 'Locate verified Halal dining spots nearby using OpenStreetMap data',
-    'restaurant_search_placeholder' => 'Enter city or neighborhood name...',
-    'btn_search_location' => 'Search',
-    'btn_current_location' => 'Use Current Location',
-    'restaurant_no_results' => 'No Halal dining amenities found in this radius.',
-    'restaurant_cuisine' => 'Cuisine:',
-    'restaurant_distance' => 'Approx. Distance:',
-    'restaurant_address' => 'Address:',
+    // Restaurant Finder Section (Future Planned Feature - Coming Soon)
+    'restaurant_title' => 'Nearby Halal Restaurants',
+    'restaurant_badge_coming_soon' => 'Coming Soon',
+    'restaurant_coming_soon_desc' => "We're currently working on this feature.",
+    'restaurant_coming_soon_subdesc' => 'It will be released in a future update to help you discover nearby halal restaurants.',
 
     // Alerts & Errors
     'error_no_file' => 'Please select an ingredient label image first.',
