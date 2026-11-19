@@ -1,4 +1,4 @@
-# HalalLens AI (هلالنس الذكي لفحص الحلال)
+# HalalLens AI (عدسة حلال)
 
 > **اعرف مكونات طعامك بثقة** | **Know your food ingredients with confidence**
 

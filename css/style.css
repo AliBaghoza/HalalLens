@@ -1275,6 +1275,24 @@ html[dir="rtl"] .flow-arrow {
     border-radius: 20px;
     font-size: 0.9rem;
     color: var(--color-text-main);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.ingredient-tag .chip-ing-icon {
+    width: 14px;
+    height: 14px;
+    color: #64748b;
+    flex-shrink: 0;
+}
+
+.ingredient-tag .tag-secondary {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    direction: ltr;
+    unicode-bidi: isolate;
+    display: inline-block;
 }
 
 .flagged-list {
@@ -1366,6 +1384,26 @@ html[dir="rtl"] .flow-arrow {
     font-weight: 700;
     font-size: 0.95rem;
     color: var(--color-text-main);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.assessment-ing-name .chip-ing-icon {
+    width: 15px;
+    height: 15px;
+    color: #64748b;
+    flex-shrink: 0;
+}
+
+.assessment-ing-name .assessment-ing-secondary {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    direction: ltr;
+    unicode-bidi: isolate;
+    display: inline-block;
 }
 
 .assessment-status-badge {
@@ -1503,13 +1541,17 @@ html[dir="rtl"] .flow-arrow {
 .chip-content {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.45rem;
     min-width: 0;
 }
 
-.chip-leaf {
-    font-size: 0.95rem;
+.chip-ing-icon {
+    width: 16px;
+    height: 16px;
+    color: #64748b;
     flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .chip-name {
@@ -1519,9 +1561,13 @@ html[dir="rtl"] .flow-arrow {
 }
 
 .chip-original {
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     color: var(--color-text-muted);
-    font-style: italic;
+    font-style: normal;
+    direction: ltr;
+    unicode-bidi: isolate;
+    display: inline-block;
+    padding-inline-start: 2px;
 }
 
 .chip-confidence {

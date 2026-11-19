@@ -37,8 +37,10 @@ header('Content-Type: application/json; charset=UTF-8');
 
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.example.php';
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'agents' . DIRECTORY_SEPARATOR . 'HalalAgent.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'services' . DIRECTORY_SEPARATOR . 'IngredientLocalizer.php';
 
 use HalalLens\Agents\HalalAgent;
+use HalalLens\Services\IngredientLocalizer;
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -80,6 +82,7 @@ try {
     $timeout = (int) ($config['gemini']['timeout'] ?? 60);
     $halalAgent = new HalalAgent($apiKey, $model, $baseUrl, $timeout);
     $result = $halalAgent->verifyIngredients($inputData['ingredients'], $lang);
+    $result = IngredientLocalizer::localizeHalalResult($result);
 
     echo json_encode([
         'success' => true,

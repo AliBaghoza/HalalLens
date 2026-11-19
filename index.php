@@ -243,7 +243,7 @@ $direction = $t['direction'] ?? 'rtl';
             <div class="arch-flow-diagram">
                 <div class="flow-node">
                     <span class="flow-label"><?= htmlspecialchars($t['how_step1_title'], ENT_QUOTES, 'UTF-8') ?></span>
-                    <img src="assets/icons/arch-box.png" alt="" class="flow-icon-img" width="30" height="30" loading="lazy">
+                    <img src="assets/icons/icon-camera.png" alt="" class="flow-icon-img" width="30" height="30" loading="lazy">
                 </div>
                 <div class="flow-arrow" aria-hidden="true">➜</div>
                 <div class="flow-node flow-node-agent">

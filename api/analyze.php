@@ -43,13 +43,14 @@ register_shutdown_function(function () {
 
 header('Content-Type: application/json; charset=UTF-8');
 
-// Load configuration helper and agents
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.example.php';
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'agents' . DIRECTORY_SEPARATOR . 'IngredientAgent.php';
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'agents' . DIRECTORY_SEPARATOR . 'HalalAgent.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'services' . DIRECTORY_SEPARATOR . 'IngredientLocalizer.php';
 
 use HalalLens\Agents\IngredientAgent;
 use HalalLens\Agents\HalalAgent;
+use HalalLens\Services\IngredientLocalizer;
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -198,6 +199,9 @@ try {
         exit;
     }
 
+    // Enrich Agent 1 structured ingredients with Arabic & English localized names
+    $visionResult = IngredientLocalizer::localizeVisionResult($visionResult);
+
     // If client requested Step 1 fallback only (extract action)
     if ($action === 'extract') {
         echo json_encode([
@@ -246,6 +250,9 @@ try {
         echo json_encode($errPayload, JSON_UNESCAPED_UNICODE) . ($isStreaming ? "\n" : '');
         exit;
     }
+
+    // Enrich Agent 2 assessments with Arabic & English localized ingredient names
+    $verificationResult = IngredientLocalizer::localizeHalalResult($verificationResult);
 
     // If streaming: Flush Event 3 (Final Halal Verification Completed)
     if ($isStreaming) {
