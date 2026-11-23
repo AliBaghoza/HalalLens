@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Seamlessly redirect legacy /assets/ requests to /resources/
+    RewriteRule ^assets/(.*)$ resources/$1 [L,NC]
+</IfModule>

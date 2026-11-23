@@ -10,7 +10,7 @@
 
 HalalLens AI solves the challenge of food ingredient verification using an official brand identity and a collaborative Multi-Agent AI system where specialized agents cooperate through a real server-side data pipeline:
 
-1. **Official Brand Identity & Visual System**: Inspired by the official brand reference board, featuring the HalalLens AI logo (`assets/halallens-logo.png`), warm Islamic geometric accents, an official color palette (Deep Forest Green `#0d3b24`, Lush Green `#1b7a43`, Mint `#e8f7ee`, Leaf Green `#68b63e`, Warm Gold `#c79d39`, Off-White `#f8faf7`), and universal **Tajawal** typography.
+1. **Official Brand Identity & Visual System**: Inspired by the official brand reference board, featuring the HalalLens AI logo (`resources/halallens-logo.png`), warm Islamic geometric accents, an official color palette (Deep Forest Green `#0d3b24`, Lush Green `#1b7a43`, Mint `#e8f7ee`, Leaf Green `#68b63e`, Warm Gold `#c79d39`, Off-White `#f8faf7`), and universal **Tajawal** typography.
 2. **Progressive 2-Stage Analysis (Enhanced User Experience)**:
    - **Stage 1 (Immediate Extraction Display)**: As soon as Agent 1 completes optical character recognition and lexical ingredient parsing, the real extracted ingredient chips (with leaf icons, normalized names, original text, and confidence badges) are rendered on the screen *immediately*. A live pulsing progress banner notifies the user: *"جارٍ التحقق من المكونات شرعياً..."*
    - **Stage 2 (Final Fiqh Assessment)**: Agent 2 ingests the extracted ingredients in server memory, evaluates Islamic dietary jurisprudence and additive databases, and completes the final assessment report with canonical verdicts, fiqh reasoning, and ingredient assessments.
@@ -76,8 +76,10 @@ HalalLens/
 ├── uploads/
 │   ├── .gitkeep              # Directory tracker
 │   └── .htaccess             # Apache rule denying direct script execution
-├── assets/
+├── resources/
 │   ├── halallens-logo.png    # Official HalalLens AI logo & brand identity (1:1 ratio)
+│   ├── halallens-logo-header.png # Header mark logo
+│   ├── icons/                # Interface & multi-agent pipeline icons
 │   └── .gitkeep              # Asset repository tracker
 ├── Dockerfile                # Production container specification for Render deployment
 ├── .dockerignore             # Excludes local secrets and temporary files

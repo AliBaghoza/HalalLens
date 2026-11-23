@@ -44,14 +44,14 @@ $direction = $t['direction'] ?? 'rtl';
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <!-- Favicon & Brand Icons -->
-    <link rel="icon" type="image/png" href="assets/halallens-logo-header.png">
-    <link rel="apple-touch-icon" href="assets/halallens-logo-header.png">
+    <link rel="icon" type="image/png" href="resources/halallens-logo-header.png">
+    <link rel="apple-touch-icon" href="resources/halallens-logo-header.png">
     
     <!-- Open Graph & Meta Tags -->
     <meta name="description" content="<?= htmlspecialchars($t['hero_desc'], ENT_QUOTES, 'UTF-8') ?>">
     <meta property="og:title" content="<?= htmlspecialchars($t['site_title'], ENT_QUOTES, 'UTF-8') ?>">
     <meta property="og:description" content="<?= htmlspecialchars($t['hero_desc'], ENT_QUOTES, 'UTF-8') ?>">
-    <meta property="og:image" content="assets/halallens-logo-header.png">
+    <meta property="og:image" content="resources/halallens-logo-header.png">
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#13794f">
 
@@ -65,7 +65,7 @@ $direction = $t['direction'] ?? 'rtl';
         <div class="container header-inner">
             <div class="brand">
                 <a href="#hero" class="brand-link" aria-label="<?= htmlspecialchars($t['app_name'], ENT_QUOTES, 'UTF-8') ?>">
-                    <img src="assets/halallens-logo-header.png" alt="<?= htmlspecialchars($t['logo_alt'], ENT_QUOTES, 'UTF-8') ?>" class="app-logo" width="46" height="46">
+                    <img src="resources/halallens-logo-header.png" alt="<?= htmlspecialchars($t['logo_alt'], ENT_QUOTES, 'UTF-8') ?>" class="app-logo" width="46" height="46">
                 </a>
                 <div class="brand-info">
                     <span class="brand-title"><?= htmlspecialchars($t['app_brand'], ENT_QUOTES, 'UTF-8') ?></span>
@@ -131,7 +131,7 @@ $direction = $t['direction'] ?? 'rtl';
                 <div class="hero-visual">
                     <div class="hero-emblem-card">
                         <div class="emblem-pattern-bg" aria-hidden="true"></div>
-                        <img src="assets/halallens-logo.png" alt="<?= htmlspecialchars($t['logo_alt'], ENT_QUOTES, 'UTF-8') ?>" class="hero-emblem-img" width="220" height="220">
+                        <img src="resources/halallens-logo.png" alt="<?= htmlspecialchars($t['logo_alt'], ENT_QUOTES, 'UTF-8') ?>" class="hero-emblem-img" width="220" height="220">
                     </div>
                 </div>
             </div>
@@ -140,7 +140,7 @@ $direction = $t['direction'] ?? 'rtl';
             <div class="quick-features-bar">
                 <div class="quick-feature-card">
                     <div class="quick-icon-wrapper">
-                        <img src="assets/icons/icon-camera.png" alt="" class="quick-icon-img" width="44" height="44" loading="lazy">
+                        <img src="resources/icons/icon-camera.png" alt="" class="quick-icon-img" width="44" height="44" loading="lazy">
                     </div>
                     <div class="quick-feature-info">
                         <h4 class="quick-title"><?= htmlspecialchars($t['quick_capture_title'], ENT_QUOTES, 'UTF-8') ?></h4>
@@ -150,7 +150,7 @@ $direction = $t['direction'] ?? 'rtl';
 
                 <div class="quick-feature-card">
                     <div class="quick-icon-wrapper">
-                        <img src="assets/icons/icon-analysis.png" alt="" class="quick-icon-img" width="44" height="44" loading="lazy">
+                        <img src="resources/icons/icon-analysis.png" alt="" class="quick-icon-img" width="44" height="44" loading="lazy">
                     </div>
                     <div class="quick-feature-info">
                         <h4 class="quick-title"><?= htmlspecialchars($t['quick_analysis_title'], ENT_QUOTES, 'UTF-8') ?></h4>
@@ -160,7 +160,7 @@ $direction = $t['direction'] ?? 'rtl';
 
                 <div class="quick-feature-card">
                     <div class="quick-icon-wrapper">
-                        <img src="assets/icons/icon-shield.png" alt="" class="quick-icon-img" width="44" height="44" loading="lazy">
+                        <img src="resources/icons/icon-shield.png" alt="" class="quick-icon-img" width="44" height="44" loading="lazy">
                     </div>
                     <div class="quick-feature-info">
                         <h4 class="quick-title"><?= htmlspecialchars($t['quick_verify_title'], ENT_QUOTES, 'UTF-8') ?></h4>
@@ -170,7 +170,7 @@ $direction = $t['direction'] ?? 'rtl';
 
                 <div class="quick-feature-card is-coming-soon">
                     <div class="quick-icon-wrapper">
-                        <img src="assets/icons/icon-restaurant.png" alt="" class="quick-icon-img" width="44" height="44" loading="lazy">
+                        <img src="resources/icons/icon-restaurant.png" alt="" class="quick-icon-img" width="44" height="44" loading="lazy">
                     </div>
                     <div class="quick-feature-info">
                         <div class="quick-title-wrap">
@@ -195,7 +195,7 @@ $direction = $t['direction'] ?? 'rtl';
                 <div class="how-step-card">
                     <div class="how-step-number">1</div>
                     <div class="how-step-icon-wrapper">
-                        <img src="assets/icons/step1-capture.png" alt="" class="how-step-img" width="68" height="68" loading="lazy">
+                        <img src="resources/icons/step1-capture.png" alt="" class="how-step-img" width="68" height="68" loading="lazy">
                     </div>
                     <h3 class="how-step-title"><?= htmlspecialchars($t['how_step1_title'], ENT_QUOTES, 'UTF-8') ?></h3>
                     <p class="how-step-desc"><?= htmlspecialchars($t['how_step1_desc'], ENT_QUOTES, 'UTF-8') ?></p>
@@ -204,7 +204,7 @@ $direction = $t['direction'] ?? 'rtl';
                 <div class="how-step-card">
                     <div class="how-step-number">2</div>
                     <div class="how-step-icon-wrapper">
-                        <img src="assets/icons/step2-extract.png" alt="" class="how-step-img" width="68" height="68" loading="lazy">
+                        <img src="resources/icons/step2-extract.png" alt="" class="how-step-img" width="68" height="68" loading="lazy">
                     </div>
                     <h3 class="how-step-title"><?= htmlspecialchars($t['how_step2_title'], ENT_QUOTES, 'UTF-8') ?></h3>
                     <p class="how-step-desc"><?= htmlspecialchars($t['how_step2_desc'], ENT_QUOTES, 'UTF-8') ?></p>
@@ -213,7 +213,7 @@ $direction = $t['direction'] ?? 'rtl';
                 <div class="how-step-card">
                     <div class="how-step-number">3</div>
                     <div class="how-step-icon-wrapper">
-                        <img src="assets/icons/step3-verify.png" alt="" class="how-step-img" width="68" height="68" loading="lazy">
+                        <img src="resources/icons/step3-verify.png" alt="" class="how-step-img" width="68" height="68" loading="lazy">
                     </div>
                     <h3 class="how-step-title"><?= htmlspecialchars($t['how_step3_title'], ENT_QUOTES, 'UTF-8') ?></h3>
                     <p class="how-step-desc"><?= htmlspecialchars($t['how_step3_desc'], ENT_QUOTES, 'UTF-8') ?></p>
@@ -222,7 +222,7 @@ $direction = $t['direction'] ?? 'rtl';
                 <div class="how-step-card">
                     <div class="how-step-number">4</div>
                     <div class="how-step-icon-wrapper">
-                        <img src="assets/icons/step4-result.png" alt="" class="how-step-img" width="68" height="68" loading="lazy">
+                        <img src="resources/icons/step4-result.png" alt="" class="how-step-img" width="68" height="68" loading="lazy">
                     </div>
                     <h3 class="how-step-title"><?= htmlspecialchars($t['how_step4_title'], ENT_QUOTES, 'UTF-8') ?></h3>
                     <p class="how-step-desc"><?= htmlspecialchars($t['how_step4_desc'], ENT_QUOTES, 'UTF-8') ?></p>
@@ -242,29 +242,29 @@ $direction = $t['direction'] ?? 'rtl';
             <div class="arch-flow-diagram">
                 <div class="flow-node">
                     <span class="flow-label"><?= htmlspecialchars($t['how_step1_title'], ENT_QUOTES, 'UTF-8') ?></span>
-                    <img src="assets/icons/icon-camera.png" alt="" class="flow-icon-img" width="30" height="30" loading="lazy">
+                    <img src="resources/icons/icon-camera.png" alt="" class="flow-icon-img" width="30" height="30" loading="lazy">
                 </div>
                 <div class="flow-arrow" aria-hidden="true">➜</div>
                 <div class="flow-node flow-node-agent">
                     <span class="flow-badge">Agent 1</span>
                     <span class="flow-label"><?= htmlspecialchars($t['agent1_name'], ENT_QUOTES, 'UTF-8') ?></span>
-                    <img src="assets/icons/arch-agent1.png" alt="" class="flow-icon-img" width="32" height="32" loading="lazy">
+                    <img src="resources/icons/arch-agent1.png" alt="" class="flow-icon-img" width="32" height="32" loading="lazy">
                 </div>
                 <div class="flow-arrow" aria-hidden="true">➜</div>
                 <div class="flow-node">
                     <span class="flow-label">JSON</span>
-                    <img src="assets/icons/arch-json.png" alt="" class="flow-icon-img" width="30" height="30" loading="lazy">
+                    <img src="resources/icons/arch-json.png" alt="" class="flow-icon-img" width="30" height="30" loading="lazy">
                 </div>
                 <div class="flow-arrow" aria-hidden="true">➜</div>
                 <div class="flow-node flow-node-agent">
                     <span class="flow-badge">Agent 2</span>
                     <span class="flow-label"><?= htmlspecialchars($t['agent2_name'], ENT_QUOTES, 'UTF-8') ?></span>
-                    <img src="assets/icons/arch-agent2.png" alt="" class="flow-icon-img" width="32" height="32" loading="lazy">
+                    <img src="resources/icons/arch-agent2.png" alt="" class="flow-icon-img" width="32" height="32" loading="lazy">
                 </div>
                 <div class="flow-arrow" aria-hidden="true">➜</div>
                 <div class="flow-node flow-node-verdict">
                     <span class="flow-label"><?= htmlspecialchars($t['how_step4_title'], ENT_QUOTES, 'UTF-8') ?></span>
-                    <img src="assets/icons/arch-result.png" alt="" class="flow-icon-img" width="30" height="30" loading="lazy">
+                    <img src="resources/icons/arch-result.png" alt="" class="flow-icon-img" width="30" height="30" loading="lazy">
                 </div>
             </div>
 
@@ -568,7 +568,7 @@ $direction = $t['direction'] ?? 'rtl';
             </div>
             <div class="coming-soon-icon" aria-hidden="true">
                 <div class="icon-circle">
-                    <img src="assets/icons/icon-restaurant.png" alt="" class="coming-soon-icon-img" width="58" height="58" loading="lazy">
+                    <img src="resources/icons/icon-restaurant.png" alt="" class="coming-soon-icon-img" width="58" height="58" loading="lazy">
                 </div>
             </div>
             <h3 id="restaurant-heading" class="coming-soon-title"><?= htmlspecialchars($t['restaurant_title'], ENT_QUOTES, 'UTF-8') ?></h3>
@@ -593,7 +593,7 @@ $direction = $t['direction'] ?? 'rtl';
     <footer class="app-footer">
         <div class="container footer-inner">
             <div class="footer-brand">
-                <img src="assets/halallens-logo.png" alt="<?= htmlspecialchars($t['logo_alt'], ENT_QUOTES, 'UTF-8') ?>" class="footer-logo" width="36" height="36">
+                <img src="resources/halallens-logo.png" alt="<?= htmlspecialchars($t['logo_alt'], ENT_QUOTES, 'UTF-8') ?>" class="footer-logo" width="36" height="36">
                 <div class="footer-brand-info">
                     <span class="footer-title"><?= htmlspecialchars($t['app_brand'], ENT_QUOTES, 'UTF-8') ?></span>
                     <p class="footer-desc"><?= htmlspecialchars($t['footer_brand_desc'], ENT_QUOTES, 'UTF-8') ?></p>
