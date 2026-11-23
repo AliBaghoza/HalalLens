@@ -159,7 +159,15 @@ PROMPT;
             ]
         ];
 
-        $candidates = array_values(array_unique([$this->model, 'gemini-3-flash-preview', 'gemini-3.1-flash-lite']));
+        $candidates = array_values(array_unique([
+            $this->model,
+            'gemini-flash-lite-latest',
+            'gemini-3.5-flash-lite',
+            'gemini-3.6-flash',
+            'gemini-3.8-flash',
+            'gemini-3-flash-preview',
+            'gemini-3.1-flash-lite'
+        ]));
         $lastException = null;
 
         foreach ($candidates as $candidateModel) {
